@@ -1,0 +1,32 @@
+{
+  "warehouse_freezer": {
+    "channel": 5,
+    "status": "DISCONNECTED",
+    "last_frame_age_seconds": null,
+    "connected_since": null,
+    "last_diff_score": null,
+    "last_spatial_std": null,
+    "last_baseline_diff": null,
+    "updated_at": "2026-07-24T10:02:42+00:00"
+  },
+  "kasa_alani": {
+    "channel": 6,
+    "status": "DISCONNECTED",
+    "last_frame_age_seconds": null,
+    "connected_since": null,
+    "last_diff_score": null,
+    "last_spatial_std": null,
+    "last_baseline_diff": null,
+    "updated_at": "2026-07-24T10:02:42+00:00"
+  },
+  "salon": {
+    "channel": 3,
+    "status": "DISCONNECTED",
+    "last_frame_age_seconds": null,
+    "connected_since": null,
+    "last_diff_score": null,
+    "last_spatial_std": null,
+    "last_baseline_diff": null,
+    "updated_at": "2026-07-24T10:02:42+00:00"
+  }
+}

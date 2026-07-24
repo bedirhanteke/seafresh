@@ -1,0 +1,4 @@
+timestamp,camera,channel,status,diff_score
+2026-07-24T09:59:57+00:00,kasa_alani,6,DISCONNECTED,
+2026-07-24T10:00:18+00:00,warehouse_freezer,5,DISCONNECTED,
+2026-07-24T10:00:39+00:00,salon,3,DISCONNECTED,
