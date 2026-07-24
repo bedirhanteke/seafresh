@@ -1,0 +1,35 @@
+{
+  "nvr_host": "77.44.64.69",
+  "nvr_port": 554,
+  "username": "your5eyt",
+  "password": "rfg34hg-6he",
+  "subtype": 1,
+  "cameras": [
+    {"name": "warehouse_freezer", "channel": 5},
+    {"name": "kasa_alani", "channel": 6},
+    {"name": "salon", "channel": 3}
+  ],
+  "freeze": {
+    "_note": "diff_threshold gorece kucuk tutulmali: statik ama canli bir sahnede bile sensor/sikistirma gurultusu yuzunden ardisik kareler arasi fark tipik olarak 0.1-0.2 araliginda cikiyor (bu NVR/substream icin olculdu). Gercekten donmus bir goruntude fark ~0.0'a yakin olur.",
+    "diff_threshold": 0.05,
+    "freeze_seconds": 15
+  },
+  "tamper": {
+    "_note": "NVR/kamera native tamper alarmi yok (sadece RTSP erisimi var), bu yuzden goruntu-tabanli iki sinyal kullaniliyor. Gercek kameralarda olculen normal degerler: spatial_std 40-54 (canli sahne), baseline_diff 12 saniyede en fazla ~0.6'ya cikiyor. Esikler bu degerlerin belirgin uzerinde tutuldu.",
+    "spatial_std_threshold": 12.0,
+    "baseline_diff_threshold": 8.0,
+    "tamper_seconds": 8
+  },
+  "poll": {
+    "read_interval_seconds": 1.0,
+    "log_interval_seconds": 30,
+    "reconnect_delay_seconds": 3.0,
+    "open_timeout_ms": 8000,
+    "read_timeout_ms": 8000,
+    "transport": "tcp"
+  },
+  "output": {
+    "status_json": "camera_health_status.json",
+    "log_csv": "camera_health_log.csv"
+  }
+}
