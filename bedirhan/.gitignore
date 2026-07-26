@@ -1,1 +1,5 @@
 yolov8s.pt
+__pycache__/
+*.pyc
+.env
+yakalanan_insanlar/

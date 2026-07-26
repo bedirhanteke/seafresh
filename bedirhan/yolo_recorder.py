@@ -1,7 +1,10 @@
+# pyrefly: ignore [missing-import]
 import cv2
 import time
 import os
+# pyrefly: ignore [missing-import]
 import numpy as np
+# pyrefly: ignore [missing-import]
 from ultralytics import YOLO
 
 # YOLO modelini yükle
@@ -26,14 +29,38 @@ roi_cashier_norm = [
     (1075.8751 / 3072, 2048.0000 / 2048)   # 50px sola (Zaten alt sınırda)
 ]
 
-# RTSP Kamera Bağlantısı
-RTSP_URL = " " #kendi rtsp url nizi yazınız 
+import sys
 
-print(f"RTSP Kamerasına bağlanılıyor... Lütfen bekleyin.")
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
+# RTSP Kamera / Video Bağlantısı
+DEFAULT_RTSP = "rtsp://your5eyt:rfg34hg-6he@77.44.64.69:554/cam/playback?channel=6&subtype=0&starttime=2026_07_21_15_00_00&endtime=2026_07_21_18_00_00"
+
+if len(sys.argv) > 1:
+    RTSP_URL = sys.argv[1]
+else:
+    RTSP_URL = os.getenv("RTSP_URL", "").strip()
+    if not RTSP_URL or RTSP_URL == " ":
+        RTSP_URL = DEFAULT_RTSP
+
+print(f"RTSP Kamerasına bağlanılıyor... Lütfen bekleyin: {RTSP_URL}")
 cap = cv2.VideoCapture(RTSP_URL)
 
-frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+if not cap.isOpened():
+    print(f"Hata: Video kaynağına/RTSP akışına bağlanılamadı! (URL: {RTSP_URL})")
+    sys.exit(1)
+
+ret, first_frame = cap.read()
+if not ret or first_frame is None:
+    print(f"Hata: Kameradan ilk kare okunamadı! (URL: {RTSP_URL})")
+    cap.release()
+    sys.exit(1)
+
+frame_height, frame_width = first_frame.shape[:2]
 fps = int(cap.get(cv2.CAP_PROP_FPS))
 
 if fps <= 0:
@@ -80,9 +107,17 @@ cv2.fillPoly(mask_cashier, [roi_cashier_pts], 255)
 area_cashier = cv2.countNonZero(mask_cashier)
 if area_cashier == 0: area_cashier = 1
 
+has_first_frame = True
+
 while True:
-    ret, frame = cap.read()
-    if not ret:
+    if has_first_frame:
+        frame = first_frame
+        ret = True
+        has_first_frame = False
+    else:
+        ret, frame = cap.read()
+
+    if not ret or frame is None:
         print("Kameradan görüntü alınamadı veya yayın sona erdi!")
         break
         
